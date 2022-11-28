@@ -14,9 +14,7 @@ import { checkIfFavourite } from 'utils/listing'
 import { FavouriteType } from 'state/types'
 import { useAppDispatch } from 'state'
 import { Alert, Snackbar } from '@mui/material'
-import Overview from './components/Overview'
-import SpellDamage from './components/SpellDamage'
-import SpellInfor from './components/SpellInfor'
+import { useTabSpell } from 'hooks/useTabSpell'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -47,22 +45,8 @@ function SpellDetail() {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const tabs = useMemo(() => {
-    return [
-      {
-        label: 'Overview',
-        content: <Overview item={spellDetail} />,
-      },
-      {
-        label: 'Spell Damage',
-        content: <SpellDamage item={spellDetail} />,
-      },
-      {
-        label: 'Spell Information',
-        content: <SpellInfor item={spellDetail} />,
-      },
-    ]
-  }, [spellDetail])
+
+  const { tabSpellDetail } = useTabSpell(spellDetail)
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
@@ -113,7 +97,7 @@ function SpellDetail() {
   return (
     <Wrapper>
       <HeadTitle title="Spell Detail" renderRight={renderButtons()} />
-      <Content>{isLoading || !spellDetail ? <SkeletonLoading /> : <BasicTabs tabs={tabs} />}</Content>
+      <Content>{isLoading || !spellDetail ? <SkeletonLoading /> : <BasicTabs tabs={tabSpellDetail} />}</Content>
       <Snackbar open={openMessage} autoHideDuration={1200} onClose={handleClose}>
         <Alert onClose={handleClose} severity={isFavourite ? 'success' : 'info'} sx={{ width: '100%' }}>
           {isFavourite ? 'Add to favourite success!' : 'Remove from favourite success!'}

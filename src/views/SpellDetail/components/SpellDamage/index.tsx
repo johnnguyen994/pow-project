@@ -55,46 +55,38 @@ const SpellDamage: React.FC<SpellDamageProps> = (props) => {
     return data
   }
 
+  const renderDamageTable = (
+    data: {
+      [x: string]: any
+    },
+    label,
+  ) => {
+    return (
+      <>
+        <TextBase>{label}</TextBase>
+        <Table>
+          <tr>
+            <th>Level</th>
+            <th>Damage</th>
+          </tr>
+          {generateData(data).map((value) => {
+            return (
+              <tr>
+                <td>{value.level}</td>
+                <td>{value.damage}</td>
+              </tr>
+            )
+          })}
+        </Table>
+      </>
+    )
+  }
+
   return (
     <Wrapper>
-      {item.damage?.damage_at_character_level && (
-        <>
-          <TextBase>Damage at character level</TextBase>
-          <Table>
-            <tr>
-              <th>Level</th>
-              <th>Damage</th>
-            </tr>
-            {generateData(item.damage.damage_at_character_level).map((value) => {
-              return (
-                <tr>
-                  <td>{value.level}</td>
-                  <td>{value.damage}</td>
-                </tr>
-              )
-            })}
-          </Table>
-        </>
-      )}
-      {item.damage?.damage_at_slot_level && (
-        <>
-          <TextBase>Damage at slot level</TextBase>
-          <Table>
-            <tr>
-              <th>Level</th>
-              <th>Damage</th>
-            </tr>
-            {generateData(item.damage.damage_at_slot_level).map((value) => {
-              return (
-                <tr>
-                  <td>{value.level}</td>
-                  <td>{value.damage}</td>
-                </tr>
-              )
-            })}
-          </Table>
-        </>
-      )}
+      {item.damage?.damage_at_character_level &&
+        renderDamageTable(item.damage.damage_at_character_level, 'Damage at character level')}
+      {item.damage?.damage_at_slot_level && renderDamageTable(item.damage.damage_at_slot_level, 'Damage at slot level')}
     </Wrapper>
   )
 }
