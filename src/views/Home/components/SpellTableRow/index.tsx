@@ -1,4 +1,4 @@
-import { BookmarkAdd, BookmarkRemoveOutlined, Visibility } from '@mui/icons-material'
+import { Favorite, FavoriteBorder, Visibility } from '@mui/icons-material'
 import { Alert, IconButton, Snackbar, TableCell, TableRow } from '@mui/material'
 import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux'
@@ -6,7 +6,12 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from 'state'
 import { selectFavouriteData, setFavouriteData } from 'state/spell'
 import { SpellListItem } from 'state/types'
+import styled from 'styled-components'
 import { checkIfFavourite } from 'utils/listing'
+
+const SpellTableCell = styled(TableCell)`
+  padding: 0px 16px !important;
+`
 
 interface SpellTableRowProps {
   row: SpellListItem
@@ -49,23 +54,23 @@ const SpellTableRow: React.FC<SpellTableRowProps> = (props) => {
         key={row.id}
         style={{ backgroundColor: isFavourite ? '#c0defc' : '#fff' }}
       >
-        <TableCell data-testid="id-row" align="right">
+        <SpellTableCell data-testid="id-row" align="left">
           {row.id}
-        </TableCell>
-        <TableCell data-testid="index-row" align="right">
+        </SpellTableCell>
+        <SpellTableCell data-testid="index-row" align="left">
           {row.index}
-        </TableCell>
-        <TableCell data-testid="name-row" align="right">
+        </SpellTableCell>
+        <SpellTableCell data-testid="name-row" align="left">
           {row.name}
-        </TableCell>
-        <TableCell align="right">
+        </SpellTableCell>
+        <SpellTableCell align="right">
           <IconButton aria-label="view" size="large" onClick={onGoToSpellPage}>
             <Visibility />
           </IconButton>
           <IconButton onClick={onHandleFavourite} aria-label="bookmark" size="large">
-            {isFavourite ? <BookmarkRemoveOutlined /> : <BookmarkAdd />}
+            {isFavourite ? <Favorite /> : <FavoriteBorder />}
           </IconButton>
-        </TableCell>
+        </SpellTableCell>
       </TableRow>
       <Snackbar open={openMessage} autoHideDuration={1200} onClose={handleClose}>
         <Alert onClose={handleClose} severity={isFavourite ? 'success' : 'info'} sx={{ width: '100%' }}>

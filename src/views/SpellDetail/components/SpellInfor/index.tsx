@@ -1,14 +1,6 @@
-import React from 'react'
+import PropertyList from 'components/PropertyList'
+import React, { useMemo } from 'react'
 import { SpellDetailItem } from 'state/types'
-import { CardContent, TextBase } from 'style/Commons'
-import styled from 'styled-components'
-
-const Wrapper = styled(CardContent)`
-  margin-top: 20px;
-`
-const Title = styled(TextBase)`
-  margin-bottom: 20px;
-`
 
 interface SpellInforProps {
   item: SpellDetailItem
@@ -16,28 +8,43 @@ interface SpellInforProps {
 
 const SpellInfor: React.FC<SpellInforProps> = (props) => {
   const { item } = props
-  return (
-    <Wrapper>
-      <Title data-testid="range-detail">
-        <b>Range:</b> {item.range}
-      </Title>
-      <Title data-testid="ritual-detail">
-        <b>Ritual:</b> {item.ritual}
-      </Title>
-      <Title data-testid="duration-detail">
-        <b>Duration:</b> {item.duration}
-      </Title>
-      <Title data-testid="concentration-detail">
-        <b>Concentration:</b> {item.concentration}
-      </Title>
-      <Title data-testid="ct-detail">
-        <b>Casting time:</b> {item.casting_time}
-      </Title>
-      <Title data-testid="level-detail">
-        <b>Level:</b> {item.level}
-      </Title>
-    </Wrapper>
-  )
+
+  const data = useMemo(() => {
+    return [
+      {
+        label: 'Range',
+        value: item.range,
+        testid: 'range-detail',
+      },
+      {
+        label: 'Ritual',
+        value: item.ritual.toString(),
+        testid: 'ritual-detail',
+      },
+      {
+        label: 'Duration',
+        value: item.duration,
+        testid: 'duration-detail',
+      },
+      {
+        label: 'Concentration',
+        value: item.concentration.toString(),
+        testid: 'concentration-detail',
+      },
+      {
+        label: 'ct-detail',
+        value: item.casting_time,
+        testid: 'duration-detail',
+      },
+      {
+        label: 'Level',
+        value: item.level,
+        testid: 'level-detail',
+      },
+    ]
+  }, [item])
+
+  return <PropertyList data={data} />
 }
 
 export default SpellInfor

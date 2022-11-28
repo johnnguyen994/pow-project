@@ -19,7 +19,7 @@ const headCells: readonly HeadCell[] = [
   {
     id: 'id',
     numeric: true,
-    disablePadding: true,
+    disablePadding: false,
     label: 'Id Spell',
   },
   {
@@ -46,7 +46,7 @@ const ListSpellTable: React.FC<ListSpellTableProps> = (props) => {
   const [order, setOrder] = React.useState<Order>('asc')
   const [orderBy, setOrderBy] = React.useState<keyof SpellData>('id')
   const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [currentData, setCurrentData] = React.useState<any[]>([])
 
   useEffect(() => {
@@ -136,7 +136,7 @@ const ListSpellTable: React.FC<ListSpellTableProps> = (props) => {
         </TableContainer>
         <TablePagination
           component="div"
-          rowsPerPageOptions={[5]}
+          rowsPerPageOptions={[10]}
           count={currentData.length}
           rowsPerPage={rowsPerPage}
           page={page}

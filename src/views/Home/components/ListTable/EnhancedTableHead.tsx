@@ -41,8 +41,8 @@ const EnhancedTableHead: React.FC<EnhancedTableProps> = (props) => {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            width={headCell.numeric ? '8%' : 'auto'}
-            align="right"
+            width={headCell.numeric ? '12%' : 'auto'}
+            align={headCell.id ? 'left' : 'right'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >

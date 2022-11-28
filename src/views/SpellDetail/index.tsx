@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
 import HeadTitle from 'components/HeadTitle'
 import styled from 'styled-components'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useSpellDetail } from 'hooks/useSpellDetail'
 import SkeletonLoading from 'components/Loader/SkeletonLoading'
 import BasicTabs from 'components/Tabs/BasicTabs'
 import { useQueryClient } from '@tanstack/react-query'
 import Button from '@mui/material/Button'
-import { BookmarkAdd, BookmarkRemoveOutlined } from '@mui/icons-material'
+import { ArrowBack, Favorite, FavoriteBorder } from '@mui/icons-material'
 import { useSelector } from 'react-redux'
 import { selectFavouriteData, setFavouriteData } from 'state/spell'
 import { checkIfFavourite } from 'utils/listing'
@@ -30,6 +30,11 @@ const Content = styled.div`
   border-radius: 8px;
 `
 
+const BlockButton = styled.div`
+  display: flex;
+  gap: 16px;
+`
+
 function SpellDetail() {
   const { index } = useParams()
   const { spellDetail, isLoading } = useSpellDetail(index)
@@ -40,6 +45,7 @@ function SpellDetail() {
     return checkIfFavourite(spellDetail.index, favouriteData)
   }, [spellDetail, favouriteData])
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const tabs = useMemo(() => {
     return [
@@ -83,17 +89,24 @@ function SpellDetail() {
     }
   }, [])
 
+  const onGoBackToList = () => {
+    navigate('/')
+  }
+
   const renderButtons = useCallback(() => {
-    if (isFavourite)
-      return (
-        <Button variant="outlined" endIcon={<BookmarkRemoveOutlined />} onClick={() => onHandleFavourite('remove')}>
-          Remove from favourite
-        </Button>
-      )
     return (
-      <Button variant="contained" endIcon={<BookmarkAdd />} onClick={() => onHandleFavourite('add')}>
-        Add to favourite
-      </Button>
+      <BlockButton>
+        <Button
+          variant={isFavourite ? 'outlined' : 'contained'}
+          endIcon={isFavourite ? <Favorite /> : <FavoriteBorder />}
+          onClick={() => onHandleFavourite(isFavourite ? 'remove' : 'add')}
+        >
+          {isFavourite ? 'Remove from favourite' : 'Add to favourite'}
+        </Button>
+        <Button variant="contained" endIcon={<ArrowBack />} onClick={onGoBackToList}>
+          Back to list
+        </Button>
+      </BlockButton>
     )
   }, [isFavourite, spellDetail])
 
