@@ -51,7 +51,7 @@ const SpellTableRow: React.FC<SpellTableRowProps> = (props) => {
         onClick={onGoToSpellPage}
         hover
         tabIndex={-1}
-        key={row.id}
+        key={row.index}
         style={{ backgroundColor: isFavourite ? '#c0defc' : '#fff' }}
       >
         <SpellTableCell data-testid="id-row" align="left">

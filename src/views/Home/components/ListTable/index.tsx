@@ -117,7 +117,7 @@ const ListSpellTable: React.FC<ListSpellTableProps> = (props) => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
-                    <React.Fragment key={row.id}>
+                    <React.Fragment key={row.index}>
                       <SpellTableRow row={row as SpellListItem} />
                     </React.Fragment>
                   )
